@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+    implementation 'org.hibernate:hibernate-core:6.0.0.Final'
+
+    implementation 'org.javassist:javassist:3.28.0-GA'
+
+    implementation project (':ProjectModel')
+    implementation project (':ProjectPersistence')
+    implementation project (':ProjectServices')
+    implementation project (':ProjectNetworking')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application{
+    mainClass='StartServer'
+}

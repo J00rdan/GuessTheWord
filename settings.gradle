@@ -1,0 +1,10 @@
+rootProject.name = 'Exam'
+include 'ProjectModel'
+include 'ProjectPersistence'
+include 'RestServices'
+include 'ProjectService'
+include 'ProjectServices'
+include 'ProjectServer'
+include 'ProjectNetworking'
+include 'ProjectClient'
+
