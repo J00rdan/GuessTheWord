@@ -7,7 +7,7 @@ A simple guess the word game(client-server application) with the leaderboard upd
  - Java SE - used for the main development of the application
  - JavaFX - used for the development of the GUI
  - PostgreSQL - used for the management of the database
- - Hibernate -  for mapping an object-oriented domain models to a relational database
+ - Hibernate -  used for mapping object-oriented domain models to a relational database
  - Gradle - build automation tool
  - Spring Boot - used for developing a REST API
 
