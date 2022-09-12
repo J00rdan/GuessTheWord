@@ -1,5 +1,7 @@
 # Guess the word
-A simple guess the word game(client-server application) with a leaderboard updated in real-time
+
+## Description
+A simple guess the word game(client-server application) with the leaderboard updated in real-time
 
 ## Technologies used
  - Java SE - used for the main development of the application
