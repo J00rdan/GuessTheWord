@@ -1,5 +1,7 @@
 package Services;
 
-public interface Observer {
+import Model.Game;
 
+public interface Observer {
+    void gameFinished(Game game) throws ServiceException;
 }

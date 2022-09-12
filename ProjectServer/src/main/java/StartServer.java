@@ -1,4 +1,6 @@
 import Persistence.ConfDBRepository;
+import Persistence.GameDBRepository;
+import Persistence.GameDtoDBRepository;
 import Persistence.UserDBRepository;
 import Server.ServerService;
 import Services.Service;
@@ -16,30 +18,30 @@ import java.util.Properties;
 public class StartServer {
     private static int defaultPort=55555;
 
-//    static SessionFactory sessionFactory;
-//
-//    static void initialize() {
-//        // A SessionFactory is set up once for an application!
-//        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-//                .configure() // configures settings from hibernate.cfg.xml
-//                .build();
-//        try {
-//            sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
-//        }
-//        catch (Exception e) {
-//            System.err.println("Exception here "+e);
-//            StandardServiceRegistryBuilder.destroy( registry );
-//        }
-//    }
-//
-//    static void close(){
-//        if ( sessionFactory != null ) {
-//            sessionFactory.close();
-//        }
-//    }
+    static SessionFactory sessionFactory;
+
+    static void initialize() {
+        // A SessionFactory is set up once for an application!
+        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure() // configures settings from hibernate.cfg.xml
+                .build();
+        try {
+            sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+        }
+        catch (Exception e) {
+            System.err.println("Exception here "+e);
+            StandardServiceRegistryBuilder.destroy( registry );
+        }
+    }
+
+    static void close(){
+        if ( sessionFactory != null ) {
+            sessionFactory.close();
+        }
+    }
 
     public static void main(String[] args) {
-//        initialize();
+        initialize();
 
         Properties serverProps=new Properties();
         try {
@@ -53,8 +55,10 @@ public class StartServer {
 
         UserDBRepository userDBRepository = new UserDBRepository(serverProps);
         ConfDBRepository confDBRepository = new ConfDBRepository(serverProps);
+        GameDBRepository gameDBRepository = new GameDBRepository(sessionFactory);
+        GameDtoDBRepository gameDtoDBRepository = new GameDtoDBRepository(serverProps);
 
-        Service srv = new ServerService(userDBRepository, confDBRepository);
+        Service srv = new ServerService(userDBRepository, confDBRepository, gameDBRepository, gameDtoDBRepository);
 
 
         int chatServerPort=defaultPort;
@@ -74,7 +78,7 @@ public class StartServer {
         }finally {
             try {
                 server.stop();
-//                close();
+                close();
             }catch(ServerException e){
                 System.err.println("Error stopping server "+e.getMessage());
             }

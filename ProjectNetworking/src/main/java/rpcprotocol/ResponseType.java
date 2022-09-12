@@ -2,5 +2,5 @@ package rpcprotocol;
 
 
 public enum ResponseType {
-    OK, ERROR, SCOUT_CHECKED;
+    OK, ERROR, GAME_FINISHED;
 }

@@ -67,7 +67,7 @@ public class StartRpcClientFX extends Application {
         ctrl.setMenuCtrl(menuController);
         ctrl.setParent(croot);
 
-        primaryStage.setTitle("MPP chat");
+        primaryStage.setTitle("Guess the Word Game");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 

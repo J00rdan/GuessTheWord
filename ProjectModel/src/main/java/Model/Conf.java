@@ -6,63 +6,17 @@ import java.util.List;
 public class Conf implements Serializable {
     private int id;
 
-    private String letters;
-    private String w1;
-    private String w2;
-    private String w3;
+    private String mask;
+    private String word;
 
     public Conf(){
 
     }
 
-    public Conf(String letters, String w1, String w2, String w3) {
-        this.letters = letters;
-        this.w1 = w1;
-        this.w2 = w2;
-        this.w3 = w3;
-    }
 
-    public String getLetters() {
-        return letters;
-    }
-
-    public void setLetters(String letters) {
-        this.letters = letters;
-    }
-
-    public String getW1() {
-        return w1;
-    }
-
-    public void setW1(String w1) {
-        this.w1 = w1;
-    }
-
-    public String getW2() {
-        return w2;
-    }
-
-    public void setW2(String w2) {
-        this.w2 = w2;
-    }
-
-    public String getW3() {
-        return w3;
-    }
-
-    public void setW3(String w3) {
-        this.w3 = w3;
-    }
-
-    @Override
-    public String toString() {
-        return "Conf{" +
-                "id=" + id +
-                ", letters='" + letters + '\'' +
-                ", w1='" + w1 + '\'' +
-                ", w2='" + w2 + '\'' +
-                ", w3='" + w3 + '\'' +
-                '}';
+    public Conf(String mask, String word) {
+        this.mask = mask;
+        this.word = word;
     }
 
     public int getId() {
@@ -71,5 +25,30 @@ public class Conf implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getMask() {
+        return mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = mask;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    @Override
+    public String toString() {
+        return "Conf{" +
+                "id=" + id +
+                ", mask='" + mask + '\'' +
+                ", word='" + word + '\'' +
+                '}';
     }
 }

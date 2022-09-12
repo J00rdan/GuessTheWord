@@ -1,5 +1,7 @@
 package rpcprotocol;
 
+import Model.Conf;
+import Model.Game;
 import Model.User;
 import Services.Observer;
 import Services.Service;
@@ -105,6 +107,66 @@ public class ServicesRpcProxy implements Service {
     }
 
     @Override
+    public Map<String, String> startGame(User user) throws ServiceException {
+        Request req=new Request.Builder().type(RequestType.START_GAME).data(user).build();
+        sendRequest(req);
+        Response response=readResponse();
+        if (response.type()== ResponseType.ERROR){
+            String err=response.data().toString();
+            throw new ServiceException(err);
+        }
+        return (Map<String, String>) response.data();
+    }
+
+    @Override
+    public int continueGame(Map<String, String> map) throws ServiceException {
+        Request req=new Request.Builder().type(RequestType.CONTINUE_GAME).data(map).build();
+        sendRequest(req);
+        Response response=readResponse();
+        if (response.type()== ResponseType.ERROR){
+            String err=response.data().toString();
+            throw new ServiceException(err);
+        }
+        return (int) response.data();
+    }
+
+    @Override
+    public Game endGame(int gameId) throws ServiceException {
+        Request req=new Request.Builder().type(RequestType.END_GAME).data(gameId).build();
+        sendRequest(req);
+        Response response=readResponse();
+        if (response.type()== ResponseType.ERROR){
+            String err=response.data().toString();
+            throw new ServiceException(err);
+        }
+        return (Game) response.data();
+    }
+
+    @Override
+    public Conf getConfByID(int confId) throws ServiceException {
+        Request req=new Request.Builder().type(RequestType.GET_CONF).data(confId).build();
+        sendRequest(req);
+        Response response=readResponse();
+        if (response.type()== ResponseType.ERROR){
+            String err=response.data().toString();
+            throw new ServiceException(err);
+        }
+        return (Conf) response.data();
+    }
+
+    @Override
+    public Iterable<Game> getAllGamesFinished() throws ServiceException {
+        Request req=new Request.Builder().type(RequestType.GET_GAMES).build();
+        sendRequest(req);
+        Response response=readResponse();
+        if (response.type()== ResponseType.ERROR){
+            String err=response.data().toString();
+            throw new ServiceException(err);
+        }
+        return (Iterable<Game>) response.data();
+    }
+
+    @Override
     public void logout(User user, Observer client) throws ServiceException {
         Request req=new Request.Builder().type(RequestType.LOGOUT).data(user).build();
         sendRequest(req);
@@ -118,18 +180,18 @@ public class ServicesRpcProxy implements Service {
 
     private void handleUpdate(Response response){
 
-//        if (response.type()== ResponseType.SCOUT_CHECKED){
-//            Scout scout = (Scout) response.data();
-//            try {
-//                client.scoutChecked(scout);
-//            } catch (ServiceException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (response.type()== ResponseType.GAME_FINISHED){
+            Game game = (Game) response.data();
+            try {
+                client.gameFinished(game);
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private boolean isUpdate(Response response){
-        return response.type()== ResponseType.SCOUT_CHECKED;
+        return response.type()== ResponseType.GAME_FINISHED;
     }
 
     private class ReaderThread implements Runnable{

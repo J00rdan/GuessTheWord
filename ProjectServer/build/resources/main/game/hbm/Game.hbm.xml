@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="game.hbm">
+
+    <class name="Model.Game" table="games">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="username" column="username"/>
+        <property name="totalPoints" column="total_points"/>
+        <property name="confId" column="conf_id"/>
+        <property name="time" column="time"/>
+        <property name="tries" column="tries"/>
+        <property name="guessedLetters" column="guessed_letters"/>
+        <property name="totalGuessedLetters" column="total_guessed_letters"/>
+        <!--        <property name="date" type="timestamp" column="EVENT_DATE"/>-->
+        <!--        <property name="title"/>-->
+    </class>
+
+</hibernate-mapping>

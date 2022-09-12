@@ -39,12 +39,9 @@ public class ConfDBRepository implements ConfRepository{
             try(ResultSet result = preStmt.executeQuery()){
                 while(result.next()){
 
-                    String l = result.getString("letters");
-
-                    String w1 = result.getString("w1");
-                    String w2 = result.getString("w2");
-                    String w3 = result.getString("w3");
-                    Conf conf = new Conf(l, w1, w2, w3);
+                    String mask = result.getString("mask");
+                    String word = result.getString("word");
+                    Conf conf = new Conf(mask, word);
                     conf.setId(id);
 
                     logger.traceExit();
@@ -68,12 +65,9 @@ public class ConfDBRepository implements ConfRepository{
             try(ResultSet result = preStmt.executeQuery()){
                 while(result.next()){
                     int id = result.getInt("id");
-                    String l = result.getString("letters");
-
-                    String w1 = result.getString("w1");
-                    String w2 = result.getString("w2");
-                    String w3 = result.getString("w3");
-                    Conf conf = new Conf(l, w1, w2, w3);
+                    String mask = result.getString("mask");
+                    String word = result.getString("word");
+                    Conf conf = new Conf(mask, word);
                     conf.setId(id);
 
                     confs.add(conf);
@@ -93,13 +87,11 @@ public class ConfDBRepository implements ConfRepository{
         logger.traceEntry("saving task {} ", entity);
         Connection con = dbUtils.getConnection();
 
-        String query = "insert into confs (letters, w1, w2, w3) values (?, ?, ?, ?)";
+        String query = "insert into confs (mask, word) values (?, ?)";
         try(PreparedStatement preStmt = con.prepareStatement(query)){
 
-            preStmt.setString(1, entity.getLetters());
-            preStmt.setString(2, entity.getW1());
-            preStmt.setString(3, entity.getW2());
-            preStmt.setString(4, entity.getW3());
+            preStmt.setString(1, entity.getMask());
+            preStmt.setString(2, entity.getWord());
             int result = preStmt.executeUpdate();
             logger.trace("Saved {} instances", result);
 
@@ -125,13 +117,11 @@ public class ConfDBRepository implements ConfRepository{
         logger.traceEntry("saving task {} ", entity);
         Connection con = dbUtils.getConnection();
 
-        String query = "insert into confs (letters, w1, w2, w3) values (?, ?, ?, ?)";
+        String query = "insert into confs (mask, word) values (?, ?)";
         try(PreparedStatement preStmt = con.prepareStatement(query)){
 
-            preStmt.setString(1, entity.getLetters());
-            preStmt.setString(2, entity.getW1());
-            preStmt.setString(3, entity.getW2());
-            preStmt.setString(4, entity.getW3());
+            preStmt.setString(1, entity.getMask());
+            preStmt.setString(2, entity.getWord());
             int result = preStmt.executeUpdate();
             logger.trace("Saved {} instances", result);
 

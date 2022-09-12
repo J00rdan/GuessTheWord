@@ -1,5 +1,6 @@
 package rpcprotocol;
 
+import Model.Game;
 import Model.User;
 import Services.Observer;
 import Services.Service;
@@ -31,6 +32,17 @@ public class ClientRpcWorker implements Runnable, Observer {
             connected=true;
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void gameFinished(Game game) throws ServiceException {
+        Response resp=new Response.Builder().type(ResponseType.GAME_FINISHED).data(game).build();
+        System.out.println("Game finished");
+        try {
+            sendResponse(resp);
+        } catch (IOException e) {
+            throw new ServiceException("Sending error: "+e);
         }
     }
 
@@ -116,6 +128,60 @@ public class ClientRpcWorker implements Runnable, Observer {
             return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
         }
     }
+    private Response handleSTART_GAME(Request request){
+        System.out.println("START_GAME request ..."+request.type());
+        User user=(User) request.data();
+
+        try {
+            return new Response.Builder().type(ResponseType.OK).data(service.startGame(user)).build();
+        } catch (ServiceException e) {
+            connected=false;
+            return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
+        }
+    }
+    private Response handleCONTINUE_GAME(Request request){
+        System.out.println("CONTINUE_GAME request ..."+request.type());
+        Map<String, String> map = (Map<String, String>) request.data();
+
+        try {
+            return new Response.Builder().type(ResponseType.OK).data(service.continueGame(map)).build();
+        } catch (ServiceException e) {
+            connected=false;
+            return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
+        }
+    }
+    private Response handleEND_GAME(Request request){
+        System.out.println("GAME_ENDED request ..."+request.type());
+        int gameId = (int) request.data();
+
+        try {
+            return new Response.Builder().type(ResponseType.OK).data(service.endGame(gameId)).build();
+        } catch (ServiceException e) {
+            connected=false;
+            return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
+        }
+    }
+    private Response handleGET_CONF(Request request){
+        System.out.println("GET_CONF request ..."+request.type());
+        int confId = (int) request.data();
+
+        try {
+            return new Response.Builder().type(ResponseType.OK).data(service.getConfByID(confId)).build();
+        } catch (ServiceException e) {
+            connected=false;
+            return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
+        }
+    }
+    private Response handleGET_GAMES(Request request){
+        System.out.println("GET_GAMES request ..."+request.type());
+
+        try {
+            return new Response.Builder().type(ResponseType.OK).data(service.getAllGamesFinished()).build();
+        } catch (ServiceException e) {
+            connected=false;
+            return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
+        }
+    }
     private Response handleLOGOUT(Request request){
         System.out.println("Logout request...");
         User user=(User) request.data();
@@ -128,5 +194,4 @@ public class ClientRpcWorker implements Runnable, Observer {
             return new Response.Builder().type(ResponseType.ERROR).data(e.getMessage()).build();
         }
     }
-
 }
