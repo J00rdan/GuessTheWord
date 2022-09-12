@@ -14,3 +14,6 @@ A simple guess the word game(client-server application) with the leaderboard upd
 
 ### Demo
 ![image](https://user-images.githubusercontent.com/35407512/189686754-a1a12311-3360-4a22-9da1-dda43891e637.png)
+#### REST API
+![image](https://user-images.githubusercontent.com/35407512/189717169-815569d5-6aca-4d3c-b581-899e617c225c.png)
+
